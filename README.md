@@ -1,8 +1,8 @@
 # Q-Learning in Grid World
 
-A small, readable implementation of **Q-learning** on the 5 × 8 "grid world" from the guest lecture
-*Hands-on Introduction to Reinforcement Learning*. An agent starts at home, knows nothing about the
-town, and learns from experience alone where the best restaurant is and how to get there.
+A small, readable implementation of **Q-learning** on a 5 × 8 grid world. An agent starts at home,
+knows nothing about the town, and learns from experience alone where the best restaurant is and
+how to get there.
 
 The core (environment, agent, training loop) uses only Python's `random` module. NumPy and
 matplotlib are used for the charts and the animation.
@@ -60,13 +60,13 @@ python main.py --help             # every option
 
 ## What you'll see
 
-The terminal output follows the order of the lecture:
+The terminal output tells the story in order:
 
 1. **The world**: the map, the rewards and the settings.
 2. **Before training**: `agent.q_table[(1, 4)]` is all zeros. The agent has never been anywhere.
 3. **Training**: a progress line every 10% of the run, showing the average reward, the average number of steps and how often the agent reaches the best restaurant.
 4. **The learned policy**: the best action in every square, coloured by how valuable the square is.
-5. **The lecture's intuition, checked**: at `(1, 4)` the best action is `right` (onto the +20); at `(4, 3)` the worst action is `left` (onto the −10).
+5. **Sanity checks**: at `(1, 4)` the best action is `right` (onto the +20); at `(4, 3)` the worst action is `left` (onto the −10).
 6. **Deployment**: the agent follows its policy with no exploration and reaches `+20` in the shortest possible 6 steps.
 7. **Saved outputs**: the figures below plus `q_table.csv`.
 
@@ -104,7 +104,7 @@ Force them with `--color always` or `--color never`.
 
 ### The pieces, and where they live
 
-| Lecture idea | In this code |
+| Idea | In this code |
 |---|---|
 | **State** *s*, a square on the grid | `(row, col)` tuple: [`gridworld.py`](gridworld.py) |
 | **Action** *a*, one of four moves | `env.actions`, `env.action_effects` |
@@ -160,31 +160,31 @@ Repeat it enough and the values spread out from the rewards. Squares near `+20` 
 near `-10` become low, and each step further away shrinks the value by a factor of γ. Once the
 table is learned, the policy is simply "take the action with the highest Q-value".
 
-### One change from the lecture: ε starts high and decays
+### Why ε starts high and decays
 
-The lecture used ε = 0.1 (explore 10% of the time). With ε fixed at 0.1 from the very first episode, the
+A common textbook setting is a fixed ε = 0.1 (explore 10% of the time). With ε fixed at 0.1 from the very first episode, the
 agent often stumbles onto the nearby `+3` restaurant first and keeps going back to it, never exploring
 far enough to find the `+20`. In a test over 100 random seeds (2000 episodes each), that happened in 61 of them.
 That is the explore-vs-exploit dilemma in action.
 
 So by default ε starts at **1.0** (new in town, try everything) and shrinks by ×0.998 each episode down
-to the lecture's **0.1**. With that schedule, the learning rate α = 0.1, γ = 0.9 and 2000 episodes, the
+to **0.1**. With that schedule, the learning rate α = 0.1, γ = 0.9 and 2000 episodes, the
 agent found the optimal 6-step route in 100 out of 100 seeds.
 
-You can still run the lecture's exact setting (see below).
+You can still run with a fixed ε to see the problem for yourself (see below).
 
 ## Experiments to try
 
 | Try this | What happens |
 |---|---|
-| `python main.py --epsilon 0.1 --epsilon-decay 1 --seed 2` | Fixed ε = 0.1, as in the lecture. The agent settles for the `+3` restaurant. |
+| `python main.py --epsilon 0.1 --epsilon-decay 1 --seed 2` | Fixed ε = 0.1 with no decay. The agent settles for the `+3` restaurant. |
 | `python main.py --step-reward -1 --gamma 1` | Every step costs 1, so the agent is rewarded for the **shortest** route even without discounting. |
 | `python main.py --start 4 7` | Start from the bottom-right corner instead. |
 | `python main.py --gamma 0.5` | A short-sighted agent: far-away rewards are almost worthless, so the values fade quickly. |
 | `python main.py --episodes 100` | Too little experience: look for `?` squares the agent never learned about. |
 | `python main.py --animate` | Watch the trained agent walk, one step at a time. |
 
-**Exercise from the lecture:** allow diagonal moves. Add `"up_left": (-1, -1)` and the three other
+**Exercise:** allow diagonal moves. Add `"up_left": (-1, -1)` and the three other
 diagonals to `action_effects` and `actions` in [`gridworld.py`](gridworld.py), plus arrows for them in
 `ARROWS` ([`terminal_view.py`](terminal_view.py)) and `ARROW_OFFSETS` ([`plots.py`](plots.py)). How many
 steps does the best route take now?
