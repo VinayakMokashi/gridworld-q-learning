@@ -1,5 +1,5 @@
 """
-The Grid World environment from the lecture.
+The Grid World environment.
 
 The world is a 5 x 8 grid (40 states). Every state is a zero-indexed
 (row, col) tuple. Tuples are immutable, so they can be used directly as
@@ -45,7 +45,7 @@ class GridWorld:
             "right": (0, 1),
         }
 
-        # Reward for an ordinary (non-terminal) step. The lecture uses 0; a value
+        # Reward for an ordinary (non-terminal) step. The default is 0; a value
         # of -1 turns "reach the goal" into "reach the goal by the shortest path".
         self.step_reward = step_reward
 

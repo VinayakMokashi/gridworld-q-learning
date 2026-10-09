@@ -1,5 +1,5 @@
 """
-The Q-learning agent from the lecture.
+A tabular Q-learning agent.
 
 The agent never sees the map. It only knows which actions exist, and it learns
 from experience how much each action is worth in each state. That knowledge
@@ -19,7 +19,7 @@ class QLearningAgent:
 
         # Probability of exploring. New in town, you try everything (epsilon = 1);
         # after each day you explore a little less, until you settle at
-        # min_epsilon - the lecture's 10%. With epsilon fixed at 0.1 from day one,
+        # min_epsilon (10% by default). With epsilon fixed at 0.1 from day one,
         # the agent often finds the +3 restaurant first and keeps going back
         # to it without ever finding the +20 one. That is the explore-vs-exploit
         # dilemma. Pass epsilon=0.1, epsilon_decay=1.0 to see it.

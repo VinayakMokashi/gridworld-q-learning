@@ -1,5 +1,5 @@
 """
-The training loop from the lecture, and the greedy "deployment" walk.
+The training loop and the greedy "deployment" walk.
 
 Training is two nested loops. The outer loop is the days (episodes): every
 morning you leave the house again. The inner loop is the steps you take that

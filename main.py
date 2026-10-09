@@ -5,8 +5,8 @@ Q-learning in Grid World - run this file.
     python main.py --animate       # also replay the learned route step by step
     python main.py --help          # every option
 
-The output follows the order of the lecture: the world, the empty Q-table,
-training, the learned policy, a check of the lecture's intuition, and the
+The output tells the story in order: the world, the empty Q-table,
+training, the learned policy, sanity checks on the Q-values, and the
 final greedy walk ("deployment").
 """
 
@@ -123,7 +123,7 @@ def main():
     best_terminal = max(env.terminal_rewards, key=env.terminal_rewards.get)
     worst_terminal = min(env.terminal_rewards, key=env.terminal_rewards.get)
 
-    tv.banner("Q-LEARNING IN GRID WORLD", "Hands-on Introduction to Reinforcement Learning")
+    tv.banner("Q-LEARNING IN GRID WORLD", "Teaching an agent to find the best restaurant in town")
 
     # 1. The world --------------------------------------------------------------
     tv.section("1. The world")
@@ -142,11 +142,11 @@ def main():
 
     # 2. Before training ----------------------------------------------------------
     tv.section("2. Before training: the Q-table is all zeros")
-    lecture_state = approach(env, best_terminal, "right") or env.start_position
+    probe_state = approach(env, best_terminal, "right") or env.start_position
     tv.note("Q(s, a) is a dictionary of dictionaries: q_table[state][action].")
     tv.note("The agent has never walked a path, so it has no idea yet - even next to the +20.")
     print()
-    print(f"    agent.q_table[{lecture_state}] = {agent.q_table[lecture_state]}")
+    print(f"    agent.q_table[{probe_state}] = {agent.q_table[probe_state]}")
 
     # 3. Training -----------------------------------------------------------------
     tv.section("3. Training (explore, then exploit)")
@@ -176,8 +176,8 @@ def main():
     tv.note("Arrow = best action in that square.  Number = V(s) = max_a Q(s, a), the discounted")
     tv.note("reward the agent expects from there.  ? = a square it never learned anything about.")
 
-    # 5. The lecture's intuition --------------------------------------------------
-    tv.section("5. Checking the lecture's intuition")
+    # 5. Sanity checks ------------------------------------------------------------
+    tv.section("5. Sanity checks on the Q-values")
     near_best = approach(env, best_terminal, "right")
     if near_best:
         print(f"  At {near_best}, right next to the {env.terminal_rewards[best_terminal]:+g}, "
